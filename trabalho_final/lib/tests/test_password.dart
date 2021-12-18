@@ -1,6 +1,12 @@
+import 'package:trabalho_final/utilities/HashPassword.dart';
 import 'package:trabalho_final/utilities/ValidatePassword.dart';
 
+// this test file is to validate the password test the hash
+
 void main() {
+/*
+
+// test to see if class ValidatePassword word properly
   List<String> testPassword = [
     "a", // check if the password have 8 or more characters
     "SLYCOPPER",   // check if password have a lowercase letter 
@@ -14,4 +20,23 @@ void main() {
   testPassword.forEach((test) {
     print(validatePassWord.validate(test));
   });
+
+*/
+
+//-----------------------------------------------------------------------------------------------
+//-----------------------------------------------------------------------------------------------
+
+
+/*
+
+
+  // this test is to see if class HashPassword can hash a password
+  String testHash = "slyCopper5?";
+  HashPassword hashPassword = new HashPassword();
+  print(hashPassword.passwordHash(testHash));
+
+
+*/
+
+
 }
