@@ -1,11 +1,11 @@
 import 'package:trabalho_final/utilities/HashPassword.dart';
+import 'package:trabalho_final/utilities/ValidateEmail.dart';
 import 'package:trabalho_final/utilities/ValidatePassword.dart';
 
 // this test file is to validate the password test the hash
 
 void main() {
-/*
-
+print("testing the password check");
 // test to see if class ValidatePassword word properly
   List<String> testPassword = [
     "a", // check if the password have 8 or more characters
@@ -18,25 +18,40 @@ void main() {
 
   ValidatePassWord validatePassWord = new ValidatePassWord();
   testPassword.forEach((test) {
-    print(validatePassWord.validate(test));
+    print(validatePassWord.validatePass(test));
   });
 
-*/
-
 //-----------------------------------------------------------------------------------------------
 //-----------------------------------------------------------------------------------------------
 
 
-/*
-
-
+  print("-------------------------------------------------");
+  print("-------------------------------------------------");
+  print("testing hash to see if it works propely");
   // this test is to see if class HashPassword can hash a password
   String testHash = "slyCopper5?";
   HashPassword hashPassword = new HashPassword();
   print(hashPassword.passwordHash(testHash));
 
+//-----------------------------------------------------------------------------------------------
+//-----------------------------------------------------------------------------------------------
 
-*/
+
+  print("-------------------------------------------------");
+  print("-------------------------------------------------");
+  print("testing the email check");
+
+  List<String> testEmail = [
+    "slymailcom",   // check if the email have a @
+    "sly@mailcom",  // check if the email have a dot
+    "sly@mail.com", // valid email
+  ];
+
+  // test if the email given is a email
+  ValidateEmail validateEmail = new ValidateEmail();
+  testEmail.forEach((email) {
+    print(validateEmail.validMail(email));
+  });
 
 
 }
