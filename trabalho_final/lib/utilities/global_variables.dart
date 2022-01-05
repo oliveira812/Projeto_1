@@ -1,3 +1,3 @@
 var storedDataValue;
-var erroEmailMensagem = "";
-var erroPasswordMensagem = "";
+var userEmail;
+var userPassword;

@@ -1,4 +1,4 @@
-  String validatePass(String password) {
+  String validPassword(String password) {
     // see if the password have 8 characters
     if (password.length < 8) {
       return "The password need a least 8 characters.";
