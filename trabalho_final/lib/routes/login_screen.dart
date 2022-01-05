@@ -4,9 +4,14 @@ import 'package:trabalho_final/routes/signup_screen.dart';
 import 'package:trabalho_final/routes/welcome_screen.dart';
 import 'package:trabalho_final/utilities/constants.dart';
 import 'package:trabalho_final/components/body.dart';
+import 'package:trabalho_final/utilities/global_variables.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
   @override
+  _LoginScreen createState() => new _LoginScreen();
+}
+
+class _LoginScreen extends State<LoginScreen> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
@@ -75,6 +80,13 @@ class LoginScreen extends StatelessWidget {
                       ),
                     ),
                   ),
+                  //----------------------------------------------------------------------
+                  //----------------------------------------------------------------------
+                  // error mensangem
+                  Text(
+                    erroEmailMensagem,
+                    style: TextStyle(color: Colors.white, fontSize: 15),
+                  ),
                 ],
               ),
               Column(
@@ -107,6 +119,13 @@ class LoginScreen extends StatelessWidget {
                       ),
                     ),
                   ),
+                  //--------------------------------------------------------------------
+                  //----------------------------------------------------------------------
+                  // error mensangem
+                  Text(
+                    erroPasswordMensagem,
+                    style: TextStyle(color: Colors.white, fontSize: 15),
+                  ),
                 ],
               ),
               Container(
@@ -118,12 +137,7 @@ class LoginScreen extends StatelessWidget {
                     fit: BoxFit.contain,
                     child: Text("Sign In"),
                   ), // para o texto caber todo dentro do button sem quebrar
-                  onPressed: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) {
-                      return SignUpScreen();
-                    }));
-                  },
+                  onPressed: login,
                   style: ElevatedButton.styleFrom(
                     side: BorderSide(
                         width: 2, color: corPrimaria), //border do button
@@ -139,10 +153,39 @@ class LoginScreen extends StatelessWidget {
                   ),
                 ),
               ),
+              // ------------------------------------------------------
+              // ------------------------------------------------------
+              //apaga depois isto
+              ElevatedButton(
+                child: Text("home"),
+                onPressed: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                    return WelcomeScreen();
+                  }));
+                },
+                style: ElevatedButton.styleFrom(
+                  primary: corPrimaria,
+                  textStyle: TextStyle(
+                    fontSize: 25,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
             ],
           ),
         ),
       ]),
     );
   }
+
+
+  login(){
+    setState(() {
+      erroEmailMensagem = "jojo";
+      erroPasswordMensagem = "jooooooooooooooooojo";
+    });
+  }
+
+
+  
 }

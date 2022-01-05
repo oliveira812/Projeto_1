@@ -1,6 +1,6 @@
 import 'package:trabalho_final/utilities/HashPassword.dart';
-import 'package:trabalho_final/utilities/ValidateEmail.dart';
-import 'package:trabalho_final/utilities/ValidatePassword.dart';
+import 'package:trabalho_final/utilities/validateEmail.dart';
+import 'package:trabalho_final/utilities/validatePassword.dart';
 
 // this test file is to validate the password test the hash
 
@@ -16,9 +16,9 @@ print("testing the password check");
     "slyCopper5?"  // it a valid password
   ];
 
-  ValidatePassWord validatePassWord = new ValidatePassWord();
+
   testPassword.forEach((test) {
-    print(validatePassWord.validatePass(test));
+    print(validatePass(test));
   });
 
 //-----------------------------------------------------------------------------------------------
@@ -48,9 +48,8 @@ print("testing the password check");
   ];
 
   // test if the email given is a email
-  ValidateEmail validateEmail = new ValidateEmail();
   testEmail.forEach((email) {
-    print(validateEmail.validMail(email));
+    print(validMail(email));
   });
 
 

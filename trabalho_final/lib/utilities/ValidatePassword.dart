@@ -1,5 +1,4 @@
-class ValidatePassWord {
-  String? validatePass(String password) {
+  String validatePass(String password) {
     // see if the password have 8 characters
     if (password.length < 8) {
       return "The password need a least 8 characters.";
@@ -27,4 +26,4 @@ class ValidatePassWord {
 
     return "validPassword";
   }
-}
+

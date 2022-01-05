@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:trabalho_final/routes/login_screen.dart';
+import 'package:trabalho_final/routes/signup_screen.dart';
 import 'package:trabalho_final/utilities/constants.dart';
 
 class WelcomeScreen extends StatelessWidget {
@@ -25,10 +26,10 @@ class WelcomeScreen extends StatelessWidget {
           Container(
             child: Center(
               child: ElevatedButton(
-                child: Text("Login"),
+                child: Text("Sign up"),
                 onPressed: () {
                   Navigator.push(context, MaterialPageRoute(builder: (context) {
-                    return LoginScreen();
+                    return SignUpScreen();
                   }));
                 },
                 style: ElevatedButton.styleFrom(
