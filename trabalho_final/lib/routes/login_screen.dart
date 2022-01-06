@@ -3,9 +3,12 @@ import 'package:flutter/rendering.dart';
 import 'package:trabalho_final/routes/signup_screen.dart';
 import 'package:trabalho_final/routes/welcome_screen.dart';
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 import 'package:trabalho_final/utilities/ReadStoredData.dart';
 >>>>>>> parent of 413e39a (teste debug)
+=======
+>>>>>>> parent of 64595b8 (a trabalhar)
 import 'package:trabalho_final/utilities/constants.dart';
 import 'package:trabalho_final/components/body.dart';
 import 'package:trabalho_final/utilities/global_variables.dart';
@@ -183,6 +186,7 @@ class _LoginScreen extends State<LoginScreen> {
   }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 
   login(){
     setState(() {
@@ -203,9 +207,12 @@ class _LoginScreen extends State<LoginScreen> {
     var data = savedData.toString(); 
     return data;
   }
+=======
+>>>>>>> parent of 64595b8 (a trabalhar)
 
-  login() {
+  login(){
     setState(() {
+<<<<<<< HEAD
       errorEmailMensagem = "";
       errorPasswordMensagem = "";
       var email = emailTextController.text;
@@ -234,6 +241,10 @@ class _LoginScreen extends State<LoginScreen> {
         errorPasswordMensagem = comparePassword;
       }
 >>>>>>> parent of 413e39a (teste debug)
+=======
+      erroEmailMensagem = "jojo";
+      erroPasswordMensagem = "jooooooooooooooooojo";
+>>>>>>> parent of 64595b8 (a trabalhar)
     });
   }
 

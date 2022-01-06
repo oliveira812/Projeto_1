@@ -189,6 +189,7 @@ class _SignUpScreen extends State<SignUpScreen>{
   }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 
   registe(){
     setState(() {
@@ -224,6 +225,13 @@ class _SignUpScreen extends State<SignUpScreen>{
         errorPasswordMensagem = "sign up it sucess.";
       }
 >>>>>>> parent of 413e39a (teste debug)
+=======
+
+  registe(){
+    setState(() {
+    erroEmailMensagem = "ola";
+    erroPasswordMensagem = "adeus";
+>>>>>>> parent of 64595b8 (a trabalhar)
     });
   }
 
