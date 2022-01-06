@@ -188,11 +188,42 @@ class _SignUpScreen extends State<SignUpScreen>{
     );
   }
 
+<<<<<<< HEAD
 
   registe(){
     setState(() {
     erroEmailMensagem = "ola";
     erroPasswordMensagem = "adeus";
+=======
+  registe() {
+    setState(() {
+      errorEmailMensagem = "";
+      errorPasswordMensagem = "";
+      var email = emailTextController.text;
+      var password = passwordTextController.text;
+      var validEmail = validMail(email);
+      var validPass = validPassword(password);
+      StoreData storeData = new StoreData();
+      HashPassword hashPassword = new HashPassword();
+
+      if (validEmail != "validEmail") {
+        errorEmailMensagem = validEmail;
+      }
+
+      if (validPass != "validPassword") {
+        errorPasswordMensagem = validPass;
+      }
+
+      if (validEmail == "validEmail" && validPass == "validPassword") {
+        // store the email in the device
+        storeData.storeData("userEmail", email);
+        // make a hash of the password
+        var hashPass = hashPassword.passwordHash(password);
+        // store the hash password on the device
+        storeData.storeData("userPassword", hashPass);
+        errorPasswordMensagem = "sign up it sucess.";
+      }
+>>>>>>> parent of 413e39a (teste debug)
     });
   }
 

@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:trabalho_final/routes/signup_screen.dart';
 import 'package:trabalho_final/routes/welcome_screen.dart';
+<<<<<<< HEAD
+=======
+import 'package:trabalho_final/utilities/ReadStoredData.dart';
+>>>>>>> parent of 413e39a (teste debug)
 import 'package:trabalho_final/utilities/constants.dart';
 import 'package:trabalho_final/components/body.dart';
 import 'package:trabalho_final/utilities/global_variables.dart';
@@ -178,11 +182,58 @@ class _LoginScreen extends State<LoginScreen> {
     );
   }
 
+<<<<<<< HEAD
 
   login(){
     setState(() {
       erroEmailMensagem = "jojo";
       erroPasswordMensagem = "jooooooooooooooooojo";
+=======
+  // return the email key
+  readStoreEmail(emailKey) async {
+    final loadData = await SharedPreferences.getInstance();
+    var savedData = loadData.getString(emailKey);
+    var data = savedData.toString();
+    return  data;
+  }
+
+    readStorePassword(passwordKey) async {
+    final loadData = await SharedPreferences.getInstance();
+    var savedData = loadData.getString(passwordKey);
+    var data = savedData.toString(); 
+    return data;
+  }
+
+  login() {
+    setState(() {
+      errorEmailMensagem = "";
+      errorPasswordMensagem = "";
+      var email = emailTextController.text;
+      var password = passwordTextController.text;
+      var validEmail = validMail(email);
+      var validPass = validPassword(password);
+      // ReadStoredData readStoredData = new ReadStoredData();
+      var compareEmail = "";
+      var comparePassword = "";
+
+      // see if the email is valid
+      if (validEmail != "validEmail") {
+        errorEmailMensagem = validEmail;
+      }
+
+      // see if the password is valid
+      if (validPass != "validPassword") {
+        errorPasswordMensagem = validPass;
+      }
+
+      if (validEmail == "validEmail" && validPass == "validPassword") {
+        compareEmail = readStoreEmail("userEmail");
+        comparePassword = readStorePassword("userPassword");
+
+        errorEmailMensagem = compareEmail;
+        errorPasswordMensagem = comparePassword;
+      }
+>>>>>>> parent of 413e39a (teste debug)
     });
   }
 
