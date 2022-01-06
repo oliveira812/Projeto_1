@@ -4,7 +4,11 @@ import 'package:trabalho_final/utilities/global_variables.dart';
 class ReadStoredData {
   readStoredData(dataKey) async {
     final loadData = await SharedPreferences.getInstance();
-    var savedData = loadData.getString(dataKey);
-    storedDataValue = savedData.toString();
+    if (loadData.containsKey(dataKey)) {
+      var savedData = loadData.getString(dataKey);
+      return savedData.toString();
+    } else {
+      return "notFound";
+    }
   }
 }
