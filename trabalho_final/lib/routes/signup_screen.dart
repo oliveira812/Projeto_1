@@ -217,12 +217,10 @@ class _SignUpScreen extends State<SignUpScreen> {
       }
 
       if (validEmail == "validEmail" && validPass == "validPassword") {
-        // store the email in the device
-        storeData.storeData("userEmail", email);
         // make a hash of the password
         var hashPass = hashPassword.passwordHash(password);
         // store the hash password on the device
-        storeData.storeData("userPassword", hashPass);
+        storeData.storeData(email, hashPass);
         errorPasswordMensagem = "sign up it sucess.";
       }
     });
