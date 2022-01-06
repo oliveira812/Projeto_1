@@ -3,17 +3,24 @@ import 'package:flutter/rendering.dart';
 import 'package:trabalho_final/components/body.dart';
 import 'package:trabalho_final/routes/login_screen.dart';
 import 'package:trabalho_final/routes/welcome_screen.dart';
+import 'package:trabalho_final/utilities/HashPassword.dart';
+import 'package:trabalho_final/utilities/StoreData.dart';
 import 'package:trabalho_final/utilities/constants.dart';
 import 'package:trabalho_final/utilities/global_variables.dart';
-import 'package:trabalho_final/utilities/validateEmail.dart';
+import 'package:trabalho_final/utilities/validEmail.dart';
+import 'package:trabalho_final/utilities/validPassword.dart';
 
 class SignUpScreen extends StatefulWidget {
   @override
   _SignUpScreen createState() => new _SignUpScreen();
 }
 
-class _SignUpScreen extends State<SignUpScreen>{
+var errorEmailMensagem = "";
+var errorPasswordMensagem = "";
+TextEditingController emailTextController = TextEditingController();
+TextEditingController passwordTextController = TextEditingController();
 
+class _SignUpScreen extends State<SignUpScreen> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
@@ -71,6 +78,7 @@ class _SignUpScreen extends State<SignUpScreen>{
                             border: Border.all(color: corPrimaria, width: 1),
                             borderRadius: BorderRadius.horizontal()),
                         child: TextField(
+                          controller: emailTextController,
                           style: TextStyle(color: Colors.white, fontSize: 18),
                           decoration: InputDecoration(
                             hintStyle: TextStyle(color: Colors.grey[200]),
@@ -87,7 +95,7 @@ class _SignUpScreen extends State<SignUpScreen>{
                       //----------------------------------------------------------------------
                       // error mensangem
                       Text(
-                        erroEmailMensagem,
+                        errorEmailMensagem,
                         style: TextStyle(color: Colors.white, fontSize: 15),
                       ),
                     ],
@@ -110,6 +118,7 @@ class _SignUpScreen extends State<SignUpScreen>{
                             border: Border.all(color: corPrimaria, width: 1),
                             borderRadius: BorderRadius.horizontal()),
                         child: TextField(
+                          controller: passwordTextController,
                           obscureText: true, //não mostra a password
                           style: TextStyle(color: Colors.white, fontSize: 18),
                           decoration: InputDecoration(
@@ -127,7 +136,7 @@ class _SignUpScreen extends State<SignUpScreen>{
                       //--------------------------------------------------------------------------
                       // error mensangem
                       Text(
-                        erroPasswordMensagem,
+                        errorPasswordMensagem,
                         style: TextStyle(color: Colors.white, fontSize: 15),
                       ),
                     ],
@@ -188,14 +197,6 @@ class _SignUpScreen extends State<SignUpScreen>{
     );
   }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-
-  registe(){
-    setState(() {
-    erroEmailMensagem = "ola";
-    erroPasswordMensagem = "adeus";
-=======
   registe() {
     setState(() {
       errorEmailMensagem = "";
@@ -224,15 +225,6 @@ class _SignUpScreen extends State<SignUpScreen>{
         storeData.storeData("userPassword", hashPass);
         errorPasswordMensagem = "sign up it sucess.";
       }
->>>>>>> parent of 413e39a (teste debug)
-=======
-
-  registe(){
-    setState(() {
-    erroEmailMensagem = "ola";
-    erroPasswordMensagem = "adeus";
->>>>>>> parent of 64595b8 (a trabalhar)
     });
   }
-
 }

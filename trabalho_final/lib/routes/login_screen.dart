@@ -2,21 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:trabalho_final/routes/signup_screen.dart';
 import 'package:trabalho_final/routes/welcome_screen.dart';
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
 import 'package:trabalho_final/utilities/ReadStoredData.dart';
->>>>>>> parent of 413e39a (teste debug)
-=======
->>>>>>> parent of 64595b8 (a trabalhar)
 import 'package:trabalho_final/utilities/constants.dart';
 import 'package:trabalho_final/components/body.dart';
 import 'package:trabalho_final/utilities/global_variables.dart';
+import 'package:trabalho_final/utilities/validEmail.dart';
+import 'package:trabalho_final/utilities/validPassword.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
   _LoginScreen createState() => new _LoginScreen();
 }
+
+var errorEmailMensagem = "";
+var errorPasswordMensagem = "";
+TextEditingController emailTextController = TextEditingController();
+TextEditingController passwordTextController = TextEditingController();
 
 class _LoginScreen extends State<LoginScreen> {
   Widget build(BuildContext context) {
@@ -36,163 +38,162 @@ class _LoginScreen extends State<LoginScreen> {
                     fit: BoxFit.cover)),
           ),
         ),
-        Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              Container(
-                child: Text(
-                  "LOGIN",
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: corPrimaria,
-                      fontSize: 20),
+        SingleChildScrollView(
+          child: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Container(
+                  child: Text(
+                    "LOGIN",
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: corPrimaria,
+                        fontSize: 20),
+                  ),
                 ),
-              ),
-              Container(
-                width: 276,
-                height: 224,
-                alignment: Alignment.center,
-                child: Image.asset("assets/images/image_not_found.png"),
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Text(
-                    "Email",
-                    style: TextStyle(color: Colors.white, fontSize: 20),
-                  ),
-                  Container(
-                    padding: EdgeInsets.symmetric(horizontal: 19, vertical: 5),
-                    margin: EdgeInsets.symmetric(vertical: 10),
-                    width: 390,
-                    height: 65,
-                    decoration: BoxDecoration(
-                        color: null,
-                        border: Border.all(color: corPrimaria, width: 1),
-                        borderRadius: BorderRadius.horizontal()),
-                    child: TextField(
-                      style: TextStyle(color: Colors.white, fontSize: 18),
-                      decoration: InputDecoration(
-                        hintStyle: TextStyle(
-                            color:
-                                Colors.grey[200]), //altera a cor do hint text
-                        hintText: "Insira aqui o seu email",
-                        focusedBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(
+                Container(
+                  width: 276,
+                  height: 224,
+                  alignment: Alignment.center,
+                  child: Image.asset("assets/images/image_not_found.png"),
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      "Email",
+                      style: TextStyle(color: Colors.white, fontSize: 20),
+                    ),
+                    Container(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 19, vertical: 5),
+                      margin: EdgeInsets.symmetric(vertical: 10),
+                      width: 390,
+                      height: 65,
+                      decoration: BoxDecoration(
+                          color: null,
+                          border: Border.all(color: corPrimaria, width: 1),
+                          borderRadius: BorderRadius.horizontal()),
+                      child: TextField(
+                        controller: emailTextController,
+                        style: TextStyle(color: Colors.white, fontSize: 18),
+                        decoration: InputDecoration(
+                          hintStyle: TextStyle(
                               color:
-                                  corPrimaria), //quando se carrega muda a cor inferior dentro da textbox
+                                  Colors.grey[200]), //altera a cor do hint text
+                          hintText: "Insira aqui o seu email",
+                          focusedBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(
+                                color:
+                                    corPrimaria), //quando se carrega muda a cor inferior dentro da textbox
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                  //----------------------------------------------------------------------
-                  //----------------------------------------------------------------------
-                  // error mensangem
-                  Text(
-                    erroEmailMensagem,
-                    style: TextStyle(color: Colors.white, fontSize: 15),
-                  ),
-                ],
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Text(
-                    "Password",
-                    style: TextStyle(color: Colors.white, fontSize: 20),
-                  ),
-                  Container(
-                    padding: EdgeInsets.symmetric(horizontal: 19, vertical: 5),
-                    margin: EdgeInsets.symmetric(vertical: 10),
-                    width: 390,
-                    height: 65,
-                    decoration: BoxDecoration(
-                        color: null,
-                        border: Border.all(color: corPrimaria, width: 1),
-                        borderRadius: BorderRadius.horizontal()),
-                    child: TextField(
-                      obscureText: true, //não mostra a password
-                      style: TextStyle(color: Colors.white, fontSize: 18),
-                      decoration: InputDecoration(
-                        hintStyle: TextStyle(color: Colors.grey[200]),
-                        hintText: "Insira aqui a sua Password",
-                        focusedBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(
-                              color:
-                                  corPrimaria), //quando se carrega muda a cor inferior dentro da textbox
+                    //----------------------------------------------------------------------
+                    //----------------------------------------------------------------------
+                    // error mensangem
+                    Text(
+                      errorEmailMensagem,
+                      style: TextStyle(color: Colors.white, fontSize: 15),
+                    ),
+                  ],
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      "Password",
+                      style: TextStyle(color: Colors.white, fontSize: 20),
+                    ),
+                    Container(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 19, vertical: 5),
+                      margin: EdgeInsets.symmetric(vertical: 10),
+                      width: 390,
+                      height: 65,
+                      decoration: BoxDecoration(
+                          color: null,
+                          border: Border.all(color: corPrimaria, width: 1),
+                          borderRadius: BorderRadius.horizontal()),
+                      child: TextField(
+                        controller: passwordTextController,
+                        obscureText: true, //não mostra a password
+                        style: TextStyle(color: Colors.white, fontSize: 18),
+                        decoration: InputDecoration(
+                          hintStyle: TextStyle(color: Colors.grey[200]),
+                          hintText: "Insira aqui a sua Password",
+                          focusedBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(
+                                color:
+                                    corPrimaria), //quando se carrega muda a cor inferior dentro da textbox
+                          ),
                         ),
                       ),
                     ),
+                    //--------------------------------------------------------------------
+                    //----------------------------------------------------------------------
+                    // error mensangem
+                    Text(
+                      errorPasswordMensagem,
+                      style: TextStyle(color: Colors.white, fontSize: 15),
+                    ),
+                  ],
+                ),
+                Container(
+                  padding: EdgeInsets.symmetric(vertical: 25.0),
+                  width: 100,
+                  height: 100,
+                  child: ElevatedButton(
+                    child: FittedBox(
+                      fit: BoxFit.contain,
+                      child: Text("Login"),
+                    ), // para o texto caber todo dentro do button sem quebrar
+                    onPressed: login,
+                    style: ElevatedButton.styleFrom(
+                      side: BorderSide(
+                          width: 2, color: corPrimaria), //border do button
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30.0),
+                      ),
+                      primary: corPrimaria.withOpacity(0),
+                      textStyle: TextStyle(
+                        fontSize: 22,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
+                    ),
                   ),
-                  //--------------------------------------------------------------------
-                  //----------------------------------------------------------------------
-                  // error mensangem
-                  Text(
-                    erroPasswordMensagem,
-                    style: TextStyle(color: Colors.white, fontSize: 15),
-                  ),
-                ],
-              ),
-              Container(
-                padding: EdgeInsets.symmetric(vertical: 25.0),
-                width: 100,
-                height: 100,
-                child: ElevatedButton(
-                  child: FittedBox(
-                    fit: BoxFit.contain,
-                    child: Text("Sign In"),
-                  ), // para o texto caber todo dentro do button sem quebrar
-                  onPressed: login,
+                ),
+                // ------------------------------------------------------
+                // ------------------------------------------------------
+                //apaga depois isto
+                ElevatedButton(
+                  child: Text("home"),
+                  onPressed: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) {
+                      return WelcomeScreen();
+                    }));
+                  },
                   style: ElevatedButton.styleFrom(
-                    side: BorderSide(
-                        width: 2, color: corPrimaria), //border do button
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30.0),
-                    ),
-                    primary: corPrimaria.withOpacity(0),
+                    primary: corPrimaria,
                     textStyle: TextStyle(
-                      fontSize: 22,
+                      fontSize: 25,
                       fontWeight: FontWeight.bold,
-                      color: Colors.white,
                     ),
                   ),
                 ),
-              ),
-              // ------------------------------------------------------
-              // ------------------------------------------------------
-              //apaga depois isto
-              ElevatedButton(
-                child: Text("home"),
-                onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) {
-                    return WelcomeScreen();
-                  }));
-                },
-                style: ElevatedButton.styleFrom(
-                  primary: corPrimaria,
-                  textStyle: TextStyle(
-                    fontSize: 25,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ]),
     );
   }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-
-  login(){
-    setState(() {
-      erroEmailMensagem = "jojo";
-      erroPasswordMensagem = "jooooooooooooooooojo";
-=======
   // return the email key
   readStoreEmail(emailKey) async {
     final loadData = await SharedPreferences.getInstance();
@@ -207,12 +208,9 @@ class _LoginScreen extends State<LoginScreen> {
     var data = savedData.toString(); 
     return data;
   }
-=======
->>>>>>> parent of 64595b8 (a trabalhar)
 
-  login(){
+  login() {
     setState(() {
-<<<<<<< HEAD
       errorEmailMensagem = "";
       errorPasswordMensagem = "";
       var email = emailTextController.text;
@@ -240,14 +238,6 @@ class _LoginScreen extends State<LoginScreen> {
         errorEmailMensagem = compareEmail;
         errorPasswordMensagem = comparePassword;
       }
->>>>>>> parent of 413e39a (teste debug)
-=======
-      erroEmailMensagem = "jojo";
-      erroPasswordMensagem = "jooooooooooooooooojo";
->>>>>>> parent of 64595b8 (a trabalhar)
     });
   }
-
-
-  
 }
