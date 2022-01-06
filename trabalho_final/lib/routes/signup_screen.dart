@@ -221,7 +221,11 @@ class _SignUpScreen extends State<SignUpScreen> {
         var hashPass = hashPassword.passwordHash(password);
         // store the hash password on the device
         storeData.storeData(email, hashPass);
-        errorPasswordMensagem = "sign up it sucess.";
+        //errorPasswordMensagem = "sign up it sucess.";
+        //print("check");
+        Navigator.push(context, MaterialPageRoute(builder: (context) {
+          return WelcomeScreen();
+        }));
       }
     });
   }
