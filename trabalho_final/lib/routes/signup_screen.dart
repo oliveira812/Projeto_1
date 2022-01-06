@@ -3,24 +3,17 @@ import 'package:flutter/rendering.dart';
 import 'package:trabalho_final/components/body.dart';
 import 'package:trabalho_final/routes/login_screen.dart';
 import 'package:trabalho_final/routes/welcome_screen.dart';
-import 'package:trabalho_final/utilities/HashPassword.dart';
-import 'package:trabalho_final/utilities/StoreData.dart';
 import 'package:trabalho_final/utilities/constants.dart';
 import 'package:trabalho_final/utilities/global_variables.dart';
-import 'package:trabalho_final/utilities/validEmail.dart';
-import 'package:trabalho_final/utilities/validPassword.dart';
+import 'package:trabalho_final/utilities/validateEmail.dart';
 
 class SignUpScreen extends StatefulWidget {
   @override
   _SignUpScreen createState() => new _SignUpScreen();
 }
 
-var errorEmailMensagem = "";
-var errorPasswordMensagem = "";
-TextEditingController emailTextController = TextEditingController();
-TextEditingController passwordTextController = TextEditingController();
+class _SignUpScreen extends State<SignUpScreen>{
 
-class _SignUpScreen extends State<SignUpScreen> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
@@ -78,7 +71,6 @@ class _SignUpScreen extends State<SignUpScreen> {
                             border: Border.all(color: corPrimaria, width: 1),
                             borderRadius: BorderRadius.horizontal()),
                         child: TextField(
-                          controller: emailTextController,
                           style: TextStyle(color: Colors.white, fontSize: 18),
                           decoration: InputDecoration(
                             hintStyle: TextStyle(color: Colors.grey[200]),
@@ -95,7 +87,7 @@ class _SignUpScreen extends State<SignUpScreen> {
                       //----------------------------------------------------------------------
                       // error mensangem
                       Text(
-                        errorEmailMensagem,
+                        erroEmailMensagem,
                         style: TextStyle(color: Colors.white, fontSize: 15),
                       ),
                     ],
@@ -118,7 +110,6 @@ class _SignUpScreen extends State<SignUpScreen> {
                             border: Border.all(color: corPrimaria, width: 1),
                             borderRadius: BorderRadius.horizontal()),
                         child: TextField(
-                          controller: passwordTextController,
                           obscureText: true, //não mostra a password
                           style: TextStyle(color: Colors.white, fontSize: 18),
                           decoration: InputDecoration(
@@ -136,7 +127,7 @@ class _SignUpScreen extends State<SignUpScreen> {
                       //--------------------------------------------------------------------------
                       // error mensangem
                       Text(
-                        errorPasswordMensagem,
+                        erroPasswordMensagem,
                         style: TextStyle(color: Colors.white, fontSize: 15),
                       ),
                     ],
@@ -197,34 +188,12 @@ class _SignUpScreen extends State<SignUpScreen> {
     );
   }
 
-  registe() {
+
+  registe(){
     setState(() {
-      errorEmailMensagem = "";
-      errorPasswordMensagem = "";
-      var email = emailTextController.text;
-      var password = passwordTextController.text;
-      var validEmail = validMail(email);
-      var validPass = validPassword(password);
-      StoreData storeData = new StoreData();
-      HashPassword hashPassword = new HashPassword();
-
-      if (validEmail != "validEmail") {
-        errorEmailMensagem = validEmail;
-      }
-
-      if (validPass != "validPassword") {
-        errorPasswordMensagem = validPass;
-      }
-
-      if (validEmail == "validEmail" && validPass == "validPassword") {
-        // store the email in the device
-        storeData.storeData("userEmail", email);
-        // make a hash of the password
-        var hashPass = hashPassword.passwordHash(password);
-        // store the hash password on the device
-        storeData.storeData("userPassword", hashPass);
-        errorPasswordMensagem = "sign up it sucess.";
-      }
+    erroEmailMensagem = "ola";
+    erroPasswordMensagem = "adeus";
     });
   }
+
 }
