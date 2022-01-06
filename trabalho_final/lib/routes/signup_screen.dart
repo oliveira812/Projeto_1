@@ -198,7 +198,7 @@ class _SignUpScreen extends State<SignUpScreen> {
   }
 
   registe() {
-    setState(() async {
+    setState(() {
       errorEmailMensagem = "";
       errorPasswordMensagem = "";
       var email = emailTextController.text;
@@ -218,9 +218,11 @@ class _SignUpScreen extends State<SignUpScreen> {
 
       if (validEmail == "validEmail" && validPass == "validPassword") {
         // store the email in the device
+        storeData.storeData("userEmail", email);
+        // make a hash of the password
         var hashPass = hashPassword.passwordHash(password);
         // store the hash password on the device
-        await storeData.storeData(email, hashPass);
+        storeData.storeData("userPassword", hashPass);
         errorPasswordMensagem = "sign up it sucess.";
       }
     });

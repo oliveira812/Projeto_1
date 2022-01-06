@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:trabalho_final/routes/signup_screen.dart';
 import 'package:trabalho_final/routes/welcome_screen.dart';
-import 'package:trabalho_final/utilities/HashPassword.dart';
 import 'package:trabalho_final/utilities/ReadStoredData.dart';
 import 'package:trabalho_final/utilities/constants.dart';
 import 'package:trabalho_final/components/body.dart';
@@ -195,16 +194,31 @@ class _LoginScreen extends State<LoginScreen> {
     );
   }
 
+  // return the email key
+  readStoreEmail(emailKey) async {
+    final loadData = await SharedPreferences.getInstance();
+    var savedData = loadData.getString(emailKey);
+    var data = savedData.toString();
+    return  data;
+  }
+
+    readStorePassword(passwordKey) async {
+    final loadData = await SharedPreferences.getInstance();
+    var savedData = loadData.getString(passwordKey);
+    var data = savedData.toString(); 
+    return data;
+  }
+
   login() {
-    setState(() async {
+    setState(() {
       errorEmailMensagem = "";
       errorPasswordMensagem = "";
       var email = emailTextController.text;
       var password = passwordTextController.text;
       var validEmail = validMail(email);
       var validPass = validPassword(password);
-      ReadStoredData readStoredData = new ReadStoredData();
-      HashPassword hashPassword = new HashPassword();
+      // ReadStoredData readStoredData = new ReadStoredData();
+      var compareEmail = "";
       var comparePassword = "";
 
       // see if the email is valid
@@ -218,19 +232,11 @@ class _LoginScreen extends State<LoginScreen> {
       }
 
       if (validEmail == "validEmail" && validPass == "validPassword") {
-        comparePassword = readStoredData.readStoredData(email);
-        if (comparePassword == "notFound") {
-          errorEmailMensagem = "email not found";
-        } else {
-          if (comparePassword == hashPassword.passwordHash(password)) {
-            userEmail = email;
-            userPassword = comparePassword;
-            errorEmailMensagem = userEmail;
-            errorPasswordMensagem = comparePassword;
-          } else {
-            errorPasswordMensagem = "incorrect password";
-          }
-        }
+        compareEmail = readStoreEmail("userEmail");
+        comparePassword = readStorePassword("userPassword");
+
+        errorEmailMensagem = compareEmail;
+        errorPasswordMensagem = comparePassword;
       }
     });
   }
