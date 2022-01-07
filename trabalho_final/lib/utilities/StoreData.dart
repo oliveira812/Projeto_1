@@ -6,6 +6,6 @@ class StoreData {
     final saveData = await SharedPreferences.getInstance();
     // set the value to save in the device
     await saveData.setString(dataKey, dataValue);
-    print("debug check");
+    //print("debug check");
   }
 }

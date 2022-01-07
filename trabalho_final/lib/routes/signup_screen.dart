@@ -15,10 +15,18 @@ class SignUpScreen extends StatefulWidget {
   _SignUpScreen createState() => new _SignUpScreen();
 }
 
+// error mensagem is to informe the user why is not creating a aconte
 var errorEmailMensagem = "";
 var errorPasswordMensagem = "";
+var errorRepeatPasswordMensagem = "";
+// difaul mensagem that show every time the user goes to the sign up page
+var textFieldHintEmail = "Insira aqui o seu email";
+var textFieldHintPass = "Insira aqui a sua Password";
+var textfielHintRepeatedPass = "Insira novamente a Password";
+// get the input the user use in the textField
 TextEditingController emailTextController = TextEditingController();
 TextEditingController passwordTextController = TextEditingController();
+TextEditingController repeatedPasswordController = TextEditingController();
 
 class _SignUpScreen extends State<SignUpScreen> {
   Widget build(BuildContext context) {
@@ -82,7 +90,7 @@ class _SignUpScreen extends State<SignUpScreen> {
                           style: TextStyle(color: Colors.white, fontSize: 18),
                           decoration: InputDecoration(
                             hintStyle: TextStyle(color: Colors.grey[200]),
-                            hintText: "Insira aqui o seu email",
+                            hintText: textFieldHintEmail,
                             focusedBorder: UnderlineInputBorder(
                               borderSide: BorderSide(
                                   color:
@@ -91,15 +99,21 @@ class _SignUpScreen extends State<SignUpScreen> {
                           ),
                         ),
                       ),
-                      //----------------------------------------------------------------------
-                      //----------------------------------------------------------------------
-                      // error mensangem
                       Text(
                         errorEmailMensagem,
                         style: TextStyle(color: Colors.white, fontSize: 15),
                       ),
                     ],
                   ),
+                  //----------------------------------------------------------------------
+                  //----------------------------------------------------------------------
+                  //----------------------------------------------------------------------
+                  //----------------------------------------------------------------------
+                  //----------------------------------------------------------------------
+                  //----------------------------------------------------------------------
+                  //----------------------------------------------------------------------
+                  //----------------------------------------------------------------------
+                  // password
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
@@ -123,7 +137,7 @@ class _SignUpScreen extends State<SignUpScreen> {
                           style: TextStyle(color: Colors.white, fontSize: 18),
                           decoration: InputDecoration(
                             hintStyle: TextStyle(color: Colors.grey[200]),
-                            hintText: "Insira aqui a sua Password",
+                            hintText: textFieldHintPass,
                             focusedBorder: UnderlineInputBorder(
                               borderSide: BorderSide(
                                   color:
@@ -132,15 +146,68 @@ class _SignUpScreen extends State<SignUpScreen> {
                           ),
                         ),
                       ),
-                      //--------------------------------------------------------------------------
-                      //--------------------------------------------------------------------------
-                      // error mensangem
                       Text(
                         errorPasswordMensagem,
                         style: TextStyle(color: Colors.white, fontSize: 15),
                       ),
                     ],
                   ),
+                  //----------------------------------------------------------------------
+                  //----------------------------------------------------------------------
+                  //----------------------------------------------------------------------
+                  //----------------------------------------------------------------------
+                  //----------------------------------------------------------------------
+                  //----------------------------------------------------------------------
+                  //----------------------------------------------------------------------
+                  //----------------------------------------------------------------------
+                  //second password
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Text(
+                        "confirmar Password",
+                        style: TextStyle(color: Colors.white, fontSize: 20),
+                      ),
+                      Container(
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 19, vertical: 5),
+                        margin: EdgeInsets.symmetric(vertical: 10),
+                        width: 390,
+                        height: 65,
+                        decoration: BoxDecoration(
+                            color: null,
+                            border: Border.all(color: corPrimaria, width: 1),
+                            borderRadius: BorderRadius.horizontal()),
+                        child: TextField(
+                          controller: repeatedPasswordController,
+                          obscureText: true, //não mostra a password
+                          style: TextStyle(color: Colors.white, fontSize: 18),
+                          decoration: InputDecoration(
+                            hintStyle: TextStyle(color: Colors.grey[200]),
+                            hintText: textfielHintRepeatedPass,
+                            focusedBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(
+                                  color:
+                                      corPrimaria), //quando se carrega muda a cor inferior dentro da textbox
+                            ),
+                          ),
+                        ),
+                      ),
+                      Text(
+                        errorRepeatPasswordMensagem,
+                        style: TextStyle(color: Colors.white, fontSize: 15),
+                      ),
+                    ],
+                  ),
+                  //----------------------------------------------------------------------
+                  //----------------------------------------------------------------------
+                  //----------------------------------------------------------------------
+                  //----------------------------------------------------------------------
+                  //----------------------------------------------------------------------
+                  //----------------------------------------------------------------------
+                  //----------------------------------------------------------------------
+                  //----------------------------------------------------------------------
+                  // bottom Sign up
                   Container(
                     padding: EdgeInsets.symmetric(vertical: 25.0),
                     width: 100,
@@ -169,25 +236,6 @@ class _SignUpScreen extends State<SignUpScreen> {
                       ),
                     ),
                   ),
-                  // ------------------------------------------------------
-                  // ------------------------------------------------------
-                  //apaga depois isto
-                  ElevatedButton(
-                    child: Text("Login"),
-                    onPressed: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) {
-                        return LoginScreen();
-                      }));
-                    },
-                    style: ElevatedButton.styleFrom(
-                      primary: corPrimaria,
-                      textStyle: TextStyle(
-                        fontSize: 25,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
                 ],
               ),
             ),
@@ -199,24 +247,53 @@ class _SignUpScreen extends State<SignUpScreen> {
 
   registe() {
     setState(() {
+      // make the erro preivew erro mensagem dissaper if the user failded to sign up
       errorEmailMensagem = "";
       errorPasswordMensagem = "";
+      errorRepeatPasswordMensagem = "";
+
+      // save the input of the text field in a variabel to use later
       var email = emailTextController.text;
       var password = passwordTextController.text;
+      var repeatedPassword = repeatedPasswordController.text;
+
+      // see if the email is a valide email
       var validEmail = validMail(email);
+
+      //see if the password is valid
       var validPass = validPassword(password);
+
+      // see if the second password is the same as the first
+      bool samePass = false;
+
+      // class to save data in the device
       StoreData storeData = new StoreData();
+
+      // class to make a hash of the password
       HashPassword hashPassword = new HashPassword();
 
+      // show erro mensagem if the email is not valid
       if (validEmail != "validEmail") {
         errorEmailMensagem = validEmail;
       }
 
+      // show erro mensagem if the password is not valid
       if (validPass != "validPassword") {
         errorPasswordMensagem = validPass;
       }
 
-      if (validEmail == "validEmail" && validPass == "validPassword") {
+      // show erro mensagem if the second password is diferente than the first, if is the same change samepass to true
+      if (repeatedPassword != password) {
+        errorRepeatPasswordMensagem = "please enter the same password";
+      } else {
+        samePass = true;
+      }
+
+      //print("same is {$samePass}");
+
+      if (validEmail == "validEmail" &&
+          validPass == "validPassword" &&
+          samePass) {
         // make a hash of the password
         var hashPass = hashPassword.passwordHash(password);
         // store the hash password on the device
