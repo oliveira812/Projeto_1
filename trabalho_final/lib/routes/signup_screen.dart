@@ -15,11 +15,11 @@ class SignUpScreen extends StatefulWidget {
   _SignUpScreen createState() => new _SignUpScreen();
 }
 
-// error mensagem is to informe the user why is not creating a aconte
+// error mensagem is to informe the user why is not creating a account
 var errorEmailMensagem = "";
 var errorPasswordMensagem = "";
 var errorRepeatPasswordMensagem = "";
-// difaul mensagem that show every time the user goes to the sign up page
+// defaul mensagem that show every time the user goes to the sign up page
 var textFieldHintEmail = "Insira aqui o seu email";
 var textFieldHintPass = "Insira aqui a sua Password";
 var textfielHintRepeatedPass = "Insira novamente a Password";
@@ -251,24 +251,18 @@ class _SignUpScreen extends State<SignUpScreen> {
       errorEmailMensagem = "";
       errorPasswordMensagem = "";
       errorRepeatPasswordMensagem = "";
-
       // save the input of the text field in a variabel to use later
       var email = emailTextController.text;
       var password = passwordTextController.text;
       var repeatedPassword = repeatedPasswordController.text;
-
       // see if the email is a valide email
       var validEmail = validMail(email);
-
       //see if the password is valid
       var validPass = validPassword(password);
-
       // see if the second password is the same as the first
       bool samePass = false;
-
       // class to save data in the device
       StoreData storeData = new StoreData();
-
       // class to make a hash of the password
       HashPassword hashPassword = new HashPassword();
 
@@ -300,6 +294,8 @@ class _SignUpScreen extends State<SignUpScreen> {
         storeData.storeData(email, hashPass);
         //errorPasswordMensagem = "sign up it sucess.";
         //print("check");
+        userEmail = email;
+        userPassword = hashPass;
         Navigator.push(context, MaterialPageRoute(builder: (context) {
           return WelcomeScreen();
         }));

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:trabalho_final/routes/signup_screen.dart';
 import 'package:trabalho_final/routes/welcome_screen.dart';
+import 'package:trabalho_final/utilities/HashPassword.dart';
 import 'package:trabalho_final/utilities/ReadStoredData.dart';
 import 'package:trabalho_final/utilities/constants.dart';
 import 'package:trabalho_final/components/body.dart';
@@ -15,8 +16,13 @@ class LoginScreen extends StatefulWidget {
   _LoginScreen createState() => new _LoginScreen();
 }
 
+// error mensagem is to informe the user why is not makeing a login
 var errorEmailMensagem = "";
 var errorPasswordMensagem = "";
+// defaul mensagem that show every time the user goes to the sign up page
+var textFieldHintEmail = "Insira aqui o seu email";
+var textFieldHintPass = "Insira aqui a sua Password";
+// get the input the user use in the textField
 TextEditingController emailTextController = TextEditingController();
 TextEditingController passwordTextController = TextEditingController();
 
@@ -83,7 +89,7 @@ class _LoginScreen extends State<LoginScreen> {
                           hintStyle: TextStyle(
                               color:
                                   Colors.grey[200]), //altera a cor do hint text
-                          hintText: "Insira aqui o seu email",
+                          hintText: textFieldHintEmail,
                           focusedBorder: UnderlineInputBorder(
                             borderSide: BorderSide(
                                 color:
@@ -92,15 +98,20 @@ class _LoginScreen extends State<LoginScreen> {
                         ),
                       ),
                     ),
-                    //----------------------------------------------------------------------
-                    //----------------------------------------------------------------------
-                    // error mensangem
                     Text(
                       errorEmailMensagem,
                       style: TextStyle(color: Colors.white, fontSize: 15),
                     ),
                   ],
                 ),
+//---------------------------------------------------------------------
+//---------------------------------------------------------------------
+//---------------------------------------------------------------------
+//---------------------------------------------------------------------
+//---------------------------------------------------------------------
+//---------------------------------------------------------------------
+//---------------------------------------------------------------------
+//---------------------------------------------------------------------
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
@@ -124,7 +135,7 @@ class _LoginScreen extends State<LoginScreen> {
                         style: TextStyle(color: Colors.white, fontSize: 18),
                         decoration: InputDecoration(
                           hintStyle: TextStyle(color: Colors.grey[200]),
-                          hintText: "Insira aqui a sua Password",
+                          hintText: textFieldHintPass,
                           focusedBorder: UnderlineInputBorder(
                             borderSide: BorderSide(
                                 color:
@@ -133,15 +144,21 @@ class _LoginScreen extends State<LoginScreen> {
                         ),
                       ),
                     ),
-                    //--------------------------------------------------------------------
-                    //----------------------------------------------------------------------
-                    // error mensangem
                     Text(
                       errorPasswordMensagem,
                       style: TextStyle(color: Colors.white, fontSize: 15),
                     ),
                   ],
                 ),
+//---------------------------------------------------------------------
+//---------------------------------------------------------------------
+//---------------------------------------------------------------------
+//---------------------------------------------------------------------
+//---------------------------------------------------------------------
+//---------------------------------------------------------------------
+//---------------------------------------------------------------------
+//---------------------------------------------------------------------
+
                 Container(
                   padding: EdgeInsets.symmetric(vertical: 25.0),
                   width: 100,
@@ -167,25 +184,6 @@ class _LoginScreen extends State<LoginScreen> {
                     ),
                   ),
                 ),
-                // ------------------------------------------------------
-                // ------------------------------------------------------
-                //apaga depois isto
-                ElevatedButton(
-                  child: Text("home"),
-                  onPressed: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) {
-                      return WelcomeScreen();
-                    }));
-                  },
-                  style: ElevatedButton.styleFrom(
-                    primary: corPrimaria,
-                    textStyle: TextStyle(
-                      fontSize: 25,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
               ],
             ),
           ),
@@ -194,33 +192,28 @@ class _LoginScreen extends State<LoginScreen> {
     );
   }
 
-  // return the email key
-  readStoreEmail(emailKey) async {
-    final loadData = await SharedPreferences.getInstance();
-    var savedData = loadData.getString(emailKey);
-    var data = savedData.toString();
-    return  data;
-  }
 
-    readStorePassword(passwordKey) async {
-    final loadData = await SharedPreferences.getInstance();
-    var savedData = loadData.getString(passwordKey);
-    var data = savedData.toString(); 
-    return data;
-  }
+  login() async {
+    // save the input of the text field in a variabel to use later
+    var email = emailTextController.text;
+    var password = passwordTextController.text;
+    // see if the email is a valide email
+    var validEmail = validMail(email);
+    //see if the password is valid
+    var validPass = validPassword(password);
+    // class to read the store libery in the device
+    ReadStoredData readStoredData = new ReadStoredData();
+    // get the password store in the device
+    var comparePassword = await readStoredData.readStoredData(email);
+    // make the erro preivew erro mensagem dissaper if the user failded to login
+    errorEmailMensagem = "";
+    errorPasswordMensagem = "";
+    // class to make a hash of the password
+    HashPassword hashPassword = new HashPassword();
+    // make a hash of the password the user give to compare if is the same in the store
+    var hashPass = hashPassword.passwordHash(password);
 
-  login() {
     setState(() {
-      errorEmailMensagem = "";
-      errorPasswordMensagem = "";
-      var email = emailTextController.text;
-      var password = passwordTextController.text;
-      var validEmail = validMail(email);
-      var validPass = validPassword(password);
-      // ReadStoredData readStoredData = new ReadStoredData();
-      var compareEmail = "";
-      var comparePassword = "";
-
       // see if the email is valid
       if (validEmail != "validEmail") {
         errorEmailMensagem = validEmail;
@@ -232,11 +225,23 @@ class _LoginScreen extends State<LoginScreen> {
       }
 
       if (validEmail == "validEmail" && validPass == "validPassword") {
-        compareEmail = readStoreEmail("userEmail");
-        comparePassword = readStorePassword("userPassword");
-
-        errorEmailMensagem = compareEmail;
-        errorPasswordMensagem = comparePassword;
+        // check the value get by the class ReadStoreData (comparePassword) if the value is notFound the email does not exist in the device
+        if (comparePassword == "notFound") {
+          errorEmailMensagem = "email not found";
+        } else {
+          // see if the password thant the user give is the same as the in the store
+          if (comparePassword == hashPass) {
+            // set the global variables userEmail and userPassword the email and the password the user give
+            userEmail = email;
+            userPassword = hashPass;
+            // go to the welcome page
+            Navigator.push(context, MaterialPageRoute(builder: (context) {
+              return WelcomeScreen();
+            }));
+          } else {
+            errorPasswordMensagem = "your Password is incorrect";
+          }
+        }
       }
     });
   }

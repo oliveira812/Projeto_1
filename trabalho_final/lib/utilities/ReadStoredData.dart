@@ -1,10 +1,15 @@
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:trabalho_final/utilities/global_variables.dart';
 
 class ReadStoredData {
-  readStoredData(dataKey) async {
+  Future<String> readStoredData(dataKey) async {
     final loadData = await SharedPreferences.getInstance();
-    var savedData = loadData.getString(dataKey);
-    storedDataValue = savedData.toString();
+    //see if the libery have the key
+    if(loadData.containsKey(dataKey)){
+      //get the value of the key
+          var savedData = loadData.getString(dataKey);
+          return savedData.toString();
+    }else{
+      return "notFound";
+    }
   }
 }
